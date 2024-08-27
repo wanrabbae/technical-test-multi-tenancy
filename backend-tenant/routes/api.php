@@ -2,6 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Services\TenantService;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +17,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('tenant')->group(function () {
+    // Registration
+    Route::post('/register', [RegisterController::class, 'register']);
+
+    // Login
+    Route::post('/login', [LoginController::class, 'login']);
+
+    // Logout
+    Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:sanctum');
+
+    // Protected Routes Example
+    Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+        return $request->user();
+    });
+});
+
+Route::get('/create-tenant/{name}', function ($name) {
+    TenantService::createTenantDatabase($name);
+    return response()->json(['message' => 'Tenant created ' . $name . ' successfully']);
 });
