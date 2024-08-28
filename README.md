@@ -105,6 +105,12 @@ This project is a multi-tenant eCommerce platform built using Laravel for the ba
 
    Open your browser and visit `http://localhost:8000`.
 
+7. **Run Unit Test:**
+
+   ```bash
+    php artisan test
+    ```
+
 ### Vue.js Frontend
 
 1. **Install Dependencies:**
