@@ -10,10 +10,9 @@ class TenantMiddleware
 {
     public function handle($request, Closure $next)
     {
-        // Assuming tenant is identified by subdomain or some constant value
-        $tenantName = 'First Tenant';
+        $tenantId = auth()->user()->tenant_id;
 
-        $tenant = Tenant::where('tenant_name', $tenantName)->firstOrFail();
+        $tenant = Tenant::find($tenantId);
 
         config(['database.connections.tenant.database' => $tenant->db_name]);
         config(['database.connections.tenant.username' => $tenant->db_username]);

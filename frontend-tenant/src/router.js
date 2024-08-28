@@ -1,19 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import LoginView from './views/Login.vue';
-import RegisterView from './views/Register.vue'; // Import the Register component
+import Login from './views/Login.vue';
+import Register from './views/Register.vue';
+import ProductList from './views/ProductList.vue';
+import CartView from './views/Cart.vue';
 
 const routes = [
-    {
-        path: '/',
-        name: 'LoginView',
-        component: LoginView
-    },
-    {
-        path: '/register',
-        name: 'RegisterView',
-        component: RegisterView
-    },
-    // Add more routes as needed
+    { path: '/', name: 'Login', component: Login },
+    { path: '/register', name: 'Register', component: Register },
+    { path: '/products', name: 'ProductList', component: ProductList },
+    { path: '/cart', name: 'CartView', component: CartView },
 ];
 
 const router = createRouter({
