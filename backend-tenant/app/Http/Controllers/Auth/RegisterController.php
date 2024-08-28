@@ -21,7 +21,7 @@ class RegisterController extends Controller
         $user = TenantUser::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => bcrypt($request->password),
         ]);
 
         return response()->json(['token' => $user->createToken('API Token')->plainTextToken]);

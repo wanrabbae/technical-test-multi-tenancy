@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\API\CartController;
+use App\Http\Controllers\API\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Services\TenantService;
@@ -17,20 +19,29 @@ use App\Http\Controllers\Auth\LoginController;
 |
 */
 
+// Registration
+Route::post('/register', [RegisterController::class, 'register']);
+
+// Login
+Route::post('/login', [LoginController::class, 'login']);
+
+// Logout
+Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:sanctum');
+
 Route::middleware('tenant')->group(function () {
-    // Registration
-    Route::post('/register', [RegisterController::class, 'register']);
-
-    // Login
-    Route::post('/login', [LoginController::class, 'login']);
-
-    // Logout
-    Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth:sanctum');
-
-    // Protected Routes Example
     Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         return $request->user();
     });
+
+    // Products
+    Route::apiResource('products', ProductController::class);
+
+    // Cart
+    Route::post('/cart', [CartController::class, 'addToCart']);
+    Route::get('/cart', [CartController::class, 'viewCart']);
+    Route::put('/cart/{itemId}', [CartController::class, 'updateCartItem']);
+    Route::delete('/cart/{itemId}', [CartController::class, 'removeCartItem']);
+    Route::post('/cart/checkout', [CartController::class, 'checkout']);
 });
 
 Route::get('/create-tenant/{name}', function ($name) {

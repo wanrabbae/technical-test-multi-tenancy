@@ -10,8 +10,8 @@ class TenantMiddleware
 {
     public function handle($request, Closure $next)
     {
-        // Assuming tenant is identified by subdomain
-        $tenantName = $request->route('tenant');
+        // Assuming tenant is identified by subdomain or some constant value
+        $tenantName = 'First Tenant';
 
         $tenant = Tenant::where('tenant_name', $tenantName)->firstOrFail();
 

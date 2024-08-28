@@ -12,11 +12,11 @@ class LoginController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if (!Auth::guard('tenant')->attempt($credentials)) {
+        if (!Auth::guard('api')->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        $user = Auth::guard('tenant')->user();
+        $user = Auth::guard('api')->user();
         return response()->json(['token' => $user->createToken('API_Token')->plainTextToken]);
     }
 
